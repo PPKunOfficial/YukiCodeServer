@@ -1,4 +1,5 @@
 import win.ui;
+import win.clip
 import console
 /*DSG{{*/
 mainForm = win.form(text="YukiCodeServer";right=399;bottom=183;max=false;min=false)
@@ -9,6 +10,7 @@ static2={cls="static";text="YukiCodeServer";left=0;top=16;right=400;bottom=56;al
 )
 /*}}*/
 
+console.log("START LOG")
 log=function(level,content){
 	if(level=="i"){
 		console.debug("LOG INFO  --> "+content)
@@ -31,6 +33,7 @@ log("i","SERVER: SERVER RUNNING...")
 import wsock.tcp.simpleHttpServer;
 var url = wsock.tcp.simpleHttpServer.startUrl("/","/www/")
 log("d","SERVER: URL --> "+url)
+win.clip.write(url)
 mainForm.edit.text=url
 /*SQLCREATE{{*/
 findTable=function(db){

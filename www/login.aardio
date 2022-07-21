@@ -2,10 +2,11 @@ import sqlite
 import crypt
 import time
 import console
-var db=sqlite("E:\repo\YukiCodePython\server\server.db")
+var db=sqlite("E:\repo\YukiCodeServer\server.db")
 log=function(level,content){
 	if(level=="i"){
 		console.debug("LOG INFO  --> "+content)
+		console.writeColorText("LOG INFO  --> "+content,red)
 	}
 	if(level=="d"){
 		console.debug("LOG DEBUG --> "+content)
@@ -14,7 +15,7 @@ log=function(level,content){
 		console.debug("LOG WARN  --> "+content)
 	}
 	if(level=="e"){
-		console.debug("LOG ERROR  --> "+content)
+		console.debug("LOG ERROR --> "+content)
 	}
 	if(level=="f"){
 		console.debug("LOG FATAL  --> "+content)
@@ -26,6 +27,8 @@ password=request.get["pwd"]
 loginSQL="SELECT * FROM USER WHERE PASSWORD='"+password+"' AND NAME='"+username+"'"
 findr=db.stepQuery(loginSQL)
 if(findr==null){
+	log("e","LOGIN ERROR RS -> USER DATA IS NULL")
+	log("d","USERNAME -> "+username+" PASSWORD -> "+password)
 	response.write(0)
 }else {
 	request.createSessionId()
@@ -34,7 +37,8 @@ if(findr==null){
 		SESSID=request.sessionId,
 		ID=findr.ID
 	)
-	log("d","SESSID -> "+request.sessionId+" ID -> "+findr.ID )
+	log("d","LOGIN OK" )
+	log("d","SESSID -> "+request.sessionId+" ID -> "+findr.ID)
 	response.write(1)
 }
 db.close()

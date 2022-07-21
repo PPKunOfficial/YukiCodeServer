@@ -2,6 +2,7 @@ import console
 log=function(level,content){
 	if(level=="i"){
 		console.debug("LOG INFO  --> "+content)
+		console.writeColorText("LOG INFO  --> "+content,red)
 	}
 	if(level=="d"){
 		console.debug("LOG DEBUG --> "+content)
@@ -10,7 +11,7 @@ log=function(level,content){
 		console.debug("LOG WARN  --> "+content)
 	}
 	if(level=="e"){
-		console.debug("LOG ERROR  --> "+content)
+		console.debug("LOG ERROR --> "+content)
 	}
 	if(level=="f"){
 		console.debug("LOG FATAL  --> "+content)

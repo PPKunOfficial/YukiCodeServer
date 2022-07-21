@@ -1,0 +1,20 @@
+import console
+log=function(level,content){
+	if(level=="i"){
+		console.writeColorText("LOG INFO  --> "+content,console.color.gray)
+	}
+	if(level=="d"){
+		console.writeColorText("LOG DEBUG --> "+content,console.color.cyan)
+	}	
+	if(level=="w"){
+		console.writeColorText("LOG WARN  --> "+content,console.color.yellow)
+	}
+	if(level=="e"){
+		console.writeColorText("LOG ERROR --> "+content,console.color.red)
+	}
+	if(level=="f"){
+		console.writeColorText("LOG FATAL  --> "+content,console.color.white)
+	}
+}
+
+console.pause()
