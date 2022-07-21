@@ -26,7 +26,7 @@ password=request.get["pwd"]
 
 loginSQL="SELECT * FROM USER WHERE PASSWORD='"+password+"' AND NAME='"+username+"'"
 findr=db.stepQuery(loginSQL)
-if(findr==null){
+if(findr==null or username=="null"){
 	log("e","LOGIN ERROR RS -> USER DATA IS NULL")
 	log("d","USERNAME -> "+username+" PASSWORD -> "+password)
 	return_json={

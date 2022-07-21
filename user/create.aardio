@@ -32,34 +32,38 @@ id=crypt.md5(username+idcode,true,true)
 
 findUser="SELECT * FROM USER WHERE ID='"+id+"'"
 findr=db.stepQuery(findUser)
-if(findr==null){
-	cre=db.prepare("INSERT INTO USER VALUES (@NAME,@PASSWORD,@SEX, @IDCODE, @LOCATION, @ID, @ILL,@SESSID);" )
-	if(tostring(idcodeint%2)=="1"){
-		log("d","CREATE TABLE -> "+id)
-		cre.step(
-		NAME=username,
-		PASSWORD=password,
-		SEX="MALE",
-		IDCODE=idcode,
-		LOCATION=location,
-		ID=id,
-		ILL=ill,
-		SESSID=null
-		)
-	}else {
-		log("d","CREATE TABLE -> "+id)
-		cre.step(
-		NAME=username,
-		PASSWORD=password,
-		SEX="FEMALE",
-		IDCODE=idcode,
-		LOCATION=location,
-		ID=id,
-		ILL=ill,
-		SESSID=null
-		)
-	}
-	log("i","CREATE USER -> "+id)
+if(findr==null or username=="test"){
+	if(username!='test'){
+		cre=db.prepare("INSERT INTO USER VALUES (@NAME,@PASSWORD,@SEX, @IDCODE, @LOCATION, @ID, @ILL,@SESSID);" )
+		if(tostring(idcodeint%2)=="1"){
+			log("d","CREATE TABLE -> "+id)
+			cre.step(
+			NAME=username,
+			PASSWORD=password,
+			SEX="MALE",
+			IDCODE=idcode,
+			LOCATION=location,
+			ID=id,
+			ILL=ill,
+			SESSID=null
+			)
+		}else {
+			log("d","CREATE TABLE -> "+id)
+			cre.step(
+			NAME=username,
+			PASSWORD=password,
+			SEX="FEMALE",
+			IDCODE=idcode,
+			LOCATION=location,
+			ID=id,
+			ILL=ill,
+			SESSID=null
+			)
+		}
+		log("i","CREATE USER -> "+id)
+	}else{
+		log('d','BYPASS')
+	}	
 	return_json={
 	"result":"CREATE",
 	"status":"1"
