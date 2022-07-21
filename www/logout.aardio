@@ -1,21 +1,21 @@
 import console
 log=function(level,content){
 	if(level=="i"){
-		console.debug("LOG INFO  --> "+content)
-		console.writeColorText("LOG INFO  --> "+content,red)
+		console.writeColorText("LOG INFO  --> "+content,console.color.gray)
 	}
 	if(level=="d"){
-		console.debug("LOG DEBUG --> "+content)
+		console.writeColorText("LOG DEBUG --> "+content,console.color.cyan)
 	}	
 	if(level=="w"){
-		console.debug("LOG WARN  --> "+content)
+		console.writeColorText("LOG WARN  --> "+content,console.color.yellow)
 	}
 	if(level=="e"){
-		console.debug("LOG ERROR --> "+content)
+		console.writeColorText("LOG ERROR --> "+content,console.color.red)
 	}
 	if(level=="f"){
-		console.debug("LOG FATAL  --> "+content)
+		console.writeColorText("LOG FATAL  --> "+content,console.color.white)
 	}
 }
+
 
 request.sessionId=""
