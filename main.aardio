@@ -13,22 +13,23 @@ static2={cls="static";text="YukiCodeServer";left=0;top=16;right=400;bottom=56;al
 console.log("START LOG")
 log=function(level,content){
 	if(level=="i"){
-		console.debug("LOG INFO  --> "+content)
+		console.writeColorText("LOG INFO  --> "+content,console.color.gray)
 	}
 	if(level=="d"){
-		console.debug("LOG DEBUG --> "+content)
+		console.writeColorText("LOG DEBUG --> "+content,console.color.cyan)
 	}	
 	if(level=="w"){
-		console.debug("LOG WARN  --> "+content)
+		console.writeColorText("LOG WARN  --> "+content,console.color.yellow)
 	}
 	if(level=="e"){
-		console.debug("LOG ERROR  --> "+content)
+		console.writeColorText("LOG ERROR --> "+content,console.color.red)
 	}
 	if(level=="f"){
-		console.debug("LOG FATAL  --> "+content)
+		console.writeColorText("LOG FATAL  --> "+content,console.color.white)
 	}
 }
 
+console.log("LOG CATCH START")
 log("i","SERVER: SERVER RUNNING...")
 import wsock.tcp.simpleHttpServer;
 var url = wsock.tcp.simpleHttpServer.startUrl("/","/www/")
