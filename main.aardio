@@ -13,19 +13,19 @@ static2={cls="static";text="YukiCodeServer";left=0;top=16;right=400;bottom=56;al
 console.log("START LOG")
 log=function(level,content){
 	if(level=="i"){
-		console.writeColorText("LOG INFO  --> "+content,console.color.gray)
+		console.writeColorText("LOG INFO  --> "+content+'\n',console.color.gray)
 	}
 	if(level=="d"){
-		console.writeColorText("LOG DEBUG --> "+content,console.color.cyan)
+		console.writeColorText("LOG DEBUG --> "+content+'\n',console.color.cyan)
 	}	
 	if(level=="w"){
-		console.writeColorText("LOG WARN  --> "+content,console.color.yellow)
+		console.writeColorText("LOG WARN  --> "+content+'\n',console.color.yellow)
 	}
 	if(level=="e"){
-		console.writeColorText("LOG ERROR --> "+content,console.color.red)
+		console.writeColorText("LOG ERROR --> "+content+'\n',console.color.red)
 	}
 	if(level=="f"){
-		console.writeColorText("LOG FATAL  --> "+content,console.color.white)
+		console.writeColorText("LOG FATAL  --> "+content+'\n',console.color.white)
 	}
 }
 
