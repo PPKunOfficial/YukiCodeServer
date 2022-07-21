@@ -29,7 +29,13 @@ findr=db.stepQuery(loginSQL)
 if(findr==null){
 	log("e","LOGIN ERROR RS -> USER DATA IS NULL")
 	log("d","USERNAME -> "+username+" PASSWORD -> "+password)
-	response.write(0)
+	return_json={
+	"result":"NO USER",
+	"status":"0"
+	}
+	response.contentType = "text/json";
+	response.jsonPrettyPrint = true;
+	response.write(return_json )
 }else {
 	request.createSessionId()
 	cre=db.prepare("UPDATE USER SET SESSID=@SESSID WHERE ID=@ID;" )
@@ -39,6 +45,13 @@ if(findr==null){
 	)
 	log("d","LOGIN OK" )
 	log("d","SESSID -> "+request.sessionId+" ID -> "+findr.ID)
-	response.write(1)
+	return_json={
+	"result":"LOGIN",
+	"status":"1",
+	"req_cookie": request.sessionId
+	}
+	response.contentType = "text/json";
+	response.jsonPrettyPrint = true;
+	response.write(return_json )
 }
 db.close()

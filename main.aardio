@@ -32,7 +32,8 @@ log=function(level,content){
 console.log("LOG CATCH START")
 log("i","SERVER: SERVER RUNNING...")
 import wsock.tcp.simpleHttpServer;
-var url = wsock.tcp.simpleHttpServer.startUrl("/","/www/")
+var url = wsock.tcp.simpleHttpServer.startUrl("/","/")
+wsock.tcp.simpleHttpServer(,80)
 log("d","SERVER: URL --> "+url)
 win.clip.write(url)
 mainForm.edit.text=url
@@ -90,5 +91,10 @@ mainForm.button2.oncommand = function(id,event){
 	db.close()
 	log("d","Initialization: CHECK OK...")
 }
+
+mainForm.edit.oncommand = function(id,event){
+	win.clip.write(url)
+}
+
 mainForm.show();
 return win.loopMessage();

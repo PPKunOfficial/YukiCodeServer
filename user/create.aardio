@@ -33,8 +33,9 @@ id=crypt.md5(username+idcode,true,true)
 findUser="SELECT * FROM USER WHERE ID='"+id+"'"
 findr=db.stepQuery(findUser)
 if(findr==null){
-	cre=db.prepare("INSERT INTO USER VALUES (@NAME,@PASSWORD,@SEX, @IDCODE, @LOCATION, @ID, @SESSID, @ILL);" )
+	cre=db.prepare("INSERT INTO USER VALUES (@NAME,@PASSWORD,@SEX, @IDCODE, @LOCATION, @ID, @ILL,@SESSID);" )
 	if(tostring(idcodeint%2)=="1"){
+		log("d","CREATE TABLE -> "+id)
 		cre.step(
 		NAME=username,
 		PASSWORD=password,
@@ -42,9 +43,11 @@ if(findr==null){
 		IDCODE=idcode,
 		LOCATION=location,
 		ID=id,
-		ILL=ill
+		ILL=ill,
+		SESSID=null
 		)
 	}else {
+		log("d","CREATE TABLE -> "+id)
 		cre.step(
 		NAME=username,
 		PASSWORD=password,
@@ -52,15 +55,28 @@ if(findr==null){
 		IDCODE=idcode,
 		LOCATION=location,
 		ID=id,
-		ILL=ill
+		ILL=ill,
+		SESSID=null
 		)
 	}
 	log("i","CREATE USER -> "+id)
-	response.write(1)
+	return_json={
+	"result":"CREATE",
+	"status":"1"
+	}
+	response.contentType = "text/json";
+	response.jsonPrettyPrint = true;
+	response.write(return_json )
 	request.sessionId=""
 }else {
 	log("i","USER HAS ALREADY CREATED")
 	log("i","USER ID -> "+findr.ID)
-	response.write(0)
+	return_json={
+	"result":"ALREADY HAS",
+	"status":"0"
+	}
+	response.contentType = "text/json";
+	response.jsonPrettyPrint = true;
+	response.write(return_json )
 }
 db.close()
