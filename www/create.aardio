@@ -1,0 +1,63 @@
+import sqlite
+import crypt
+import console
+var db=sqlite("E:\repo\YukiCodePython\server\server.db")
+log=function(level,content){
+	if(level=="i"){
+		console.debug("LOG INFO  --> "+content)
+	}
+	if(level=="d"){
+		console.debug("LOG DEBUG --> "+content)
+	}	
+	if(level=="w"){
+		console.debug("LOG WARN  --> "+content)
+	}
+	if(level=="e"){
+		console.debug("LOG ERROR  --> "+content)
+	}
+	if(level=="f"){
+		console.debug("LOG FATAL  --> "+content)
+	}
+}
+
+log("i","IP:"+request.remoteAddr)
+username=request.get["user"]
+password=request.get["pwd"]
+idcode=request.get["idc"]
+idcodeint=tonumber(idcode,,17)/10-tonumber(idcode,,18)/10
+location=request.get["loc"]
+ill=request.get["ill"]
+id=crypt.md5(username+idcode,true,true)
+
+findUser="SELECT * FROM USER WHERE ID='"+id+"'"
+findr=db.stepQuery(findUser)
+if(findr==null){
+	cre=db.prepare("INSERT INTO USER VALUES (@NAME,@PASSWORD,@SEX, @IDCODE, @LOCATION, @ID, @SESSID, @ILL);" )
+	if(tostring(idcodeint%2)=="1"){
+		cre.step(
+		NAME=username,
+		PASSWORD=password,
+		SEX="MALE",
+		IDCODE=idcode,
+		LOCATION=location,
+		ID=id,
+		ILL=ill
+		)
+	}else {
+		cre.step(
+		NAME=username,
+		PASSWORD=password,
+		SEX="FEMALE",
+		IDCODE=idcode,
+		LOCATION=location,
+		ID=id,
+		ILL=ill
+		)
+	}
+	log("i","CREATE USER:"+id)
+	response.write(1)
+	request.sessionId=""
+}else {
+	response.write(0)
+}
+db.close()

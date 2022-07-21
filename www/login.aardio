@@ -1,0 +1,40 @@
+import sqlite
+import crypt
+import time
+import console
+var db=sqlite("E:\repo\YukiCodePython\server\server.db")
+log=function(level,content){
+	if(level=="i"){
+		console.debug("LOG INFO  --> "+content)
+	}
+	if(level=="d"){
+		console.debug("LOG DEBUG --> "+content)
+	}	
+	if(level=="w"){
+		console.debug("LOG WARN  --> "+content)
+	}
+	if(level=="e"){
+		console.debug("LOG ERROR  --> "+content)
+	}
+	if(level=="f"){
+		console.debug("LOG FATAL  --> "+content)
+	}
+}
+username=request.get["user"]
+password=request.get["pwd"]
+
+loginSQL="SELECT * FROM USER WHERE PASSWORD='"+password+"' AND NAME='"+username+"'"
+findr=db.stepQuery(loginSQL)
+if(findr==null){
+	response.write(0)
+}else {
+	request.createSessionId()
+	cre=db.prepare("UPDATE USER SET SESSID=@SESSID WHERE ID=@ID;" )
+	cre.step(
+		SESSID=request.sessionId,
+		ID=findr.ID
+	)
+	log("d","SESSID -> "+request.sessionId+" ID -> "+findr.ID )
+	response.write(1)
+}
+db.close()

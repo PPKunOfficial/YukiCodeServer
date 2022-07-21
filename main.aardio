@@ -1,0 +1,90 @@
+import win.ui;
+import console
+/*DSG{{*/
+mainForm = win.form(text="YukiCodeServer";right=399;bottom=183;max=false;min=false)
+mainForm.add(
+button2={cls="button";text="Initialization";left=16;top=64;right=384;bottom=104;font=LOGFONT(h=-24;name='Consolas';weight=700);z=2};
+edit={cls="edit";text="Edit";left=16;top=128;right=384;bottom=160;edge=1;multiline=1;z=3};
+static2={cls="static";text="YukiCodeServer";left=0;top=16;right=400;bottom=56;align="center";center=1;font=LOGFONT(h=-35;name='Consolas';weight=700);notify=1;transparent=1;z=1}
+)
+/*}}*/
+
+log=function(level,content){
+	if(level=="i"){
+		console.debug("LOG INFO  --> "+content)
+	}
+	if(level=="d"){
+		console.debug("LOG DEBUG --> "+content)
+	}	
+	if(level=="w"){
+		console.debug("LOG WARN  --> "+content)
+	}
+	if(level=="e"){
+		console.debug("LOG ERROR  --> "+content)
+	}
+	if(level=="f"){
+		console.debug("LOG FATAL  --> "+content)
+	}
+}
+
+log("i","SERVER: SERVER RUNNING...")
+import wsock.tcp.simpleHttpServer;
+var url = wsock.tcp.simpleHttpServer.startUrl("/","/www/")
+log("d","SERVER: URL --> "+url)
+mainForm.edit.text=url
+/*SQLCREATE{{*/
+findTable=function(db){
+	if( not db.existsTable("ADR") ) {  
+    	db.exec( 'CREATE TABLE "ADR" (
+		"ID"	TEXT NOT NULL,
+		"ADD"	TEXT NOT NULL,
+		"ILL"	TEXT NOT NULL,
+		"TIME"	TEXT NOT NULL
+		)' );
+	}  
+	if( not db.existsTable("COVP") ) {  
+    	db.exec( 'CREATE TABLE "COVP" (
+	"ID"	TEXT NOT NULL,
+	"BRAND"	TEXT NOT NULL,
+	"TIME"	TEXT NOT NULL,
+	"TIMES"	INTEGER NOT NULL
+)' );
+	}  
+	if( not db.existsTable("CTEST") ) {  
+    	db.exec( 'CREATE TABLE "CTEST" (
+	"ID"	TEXT NOT NULL,
+	"TIME"	TEXT NOT NULL,
+	"COM"	TEXT NOT NULL,
+	"TADD"	TEXT NOT NULL,
+	"ILL"      TEXT NOT NULL
+)' );
+}
+	if( not db.existsTable("USER") ) {  
+    	db.exec( 'CREATE TABLE "USER" (
+	"NAME"	TEXT NOT NULL,
+	"PASSWORD"	TEXT NOT NULL,
+	"SEX"	TEXT NOT NULL,
+	"IDCODE"	TEXT NOT NULL,
+	"LOCATION"	TEXT NOT NULL,
+	"ID"	TEXT NOT NULL UNIQUE,
+	"SESSID"	TEXT,
+	"ILL"	TEXT NOT NULL DEFAULT 0
+)' );
+	}  
+	return 0
+}
+/*}}*/
+
+
+if(_ARGV.opt){
+	mainForm.edit.print(_ARGV.opt,_ARGV[#_ARGV]);
+}
+mainForm.button2.oncommand = function(id,event){
+	import sqlite
+	var db=sqlite("\server.db")
+	findTable(db)
+	db.close()
+	log("d","Initialization: CHECK OK...")
+}
+mainForm.show();
+return win.loopMessage();

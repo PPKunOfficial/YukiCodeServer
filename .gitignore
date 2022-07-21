@@ -1,0 +1,4 @@
+
+config/session/*
+server.db
+dist/*

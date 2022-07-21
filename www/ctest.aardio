@@ -1,0 +1,42 @@
+import sqlite
+import crypt
+import time
+var db=sqlite("E:\repo\YukiCodePython\server\server.db")
+
+
+address=request.get["adr"]
+com=request.get["com"]
+tadd=request.get["tadd"]
+ill=request.get["ill"]
+
+if(request.cookies["aardiosessid"] == request.sessionId){
+	loginSQL="SELECT * FROM USER WHERE SESSID='"+request.sessionId+";"
+	findr=db.stepQuery(loginSQL)
+	id=findr.ID; 
+	time=tostring(time.now())
+	cre=db.prepare("INSERT INTO CTEST VALUES (@ID,@TIME,@COM,@TADD,@ILL);" )
+	cre.step(
+	ADD=address,
+	ID=id,
+	TIME=time,
+	TADD=tadd,
+	ILL=ill
+	)
+	if(ill="1"){
+		cre=db.prepare("UPDATE USER SET ILL='1' WHERE ID=@ID;" )
+		cre.step(
+			ID=id
+		)
+		cre=db.prepare("UPDATE ADR SET ILL='1' WHERE ID=@ID;" )
+		cre.step(
+			ID=id
+		)
+		cre=db.prepare("UPDATE USER SET ILL='2' WHERE ADR.ILL='1' AND USER.ID!=@ID;" )
+		cre.step(
+		ID=findr.ID
+		)
+	}
+	response.write(1)
+}else {
+	response.write(0)
+}

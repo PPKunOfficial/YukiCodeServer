@@ -1,0 +1,20 @@
+import console
+log=function(level,content){
+	if(level=="i"){
+		console.debug("LOG INFO  --> "+content)
+	}
+	if(level=="d"){
+		console.debug("LOG DEBUG --> "+content)
+	}	
+	if(level=="w"){
+		console.debug("LOG WARN  --> "+content)
+	}
+	if(level=="e"){
+		console.debug("LOG ERROR  --> "+content)
+	}
+	if(level=="f"){
+		console.debug("LOG FATAL  --> "+content)
+	}
+}
+
+request.sessionId=""
