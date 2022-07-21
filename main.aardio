@@ -32,8 +32,31 @@ log=function(level,content){
 console.log("LOG CATCH START")
 log("i","SERVER: SERVER RUNNING...")
 import wsock.tcp.simpleHttpServer;
-var url = wsock.tcp.simpleHttpServer.startUrl("/","/")
-wsock.tcp.simpleHttpServer(,80)
+namespace wsock.tcp.simpleHttpServer{
+	startIp = "0.0.0.0"; //不限制本机 IP
+    startPort = 80; //不指定端口时会自动分配空闲端口
+    threadGlobal = { mainForm = ..mainForm }; //指定 HTTP 服务线程的默认全局变量,注意定义线程函数的作用域同名变量不能是局部变量
+}
+ 
+//io.open() //打开控制台查看线程错误信息
+var url = wsock.tcp.simpleHttpServer.startUrl( 
+	function(response,request,session){
+		if( io.exist( request.path,0) 
+			&& request.path!="/main.aardio" ){
+			response.loadcode( request.path )
+		}
+		else{
+			loadcodex(`
+		<!doctype html>
+		<html><head></head><body style="white-space:pre"><?
+			response.jsonPrettyPrint = true;//输出缩进格式化的JSON
+			response.write(request); 
+		?></body>
+		</html>`)
+			
+		} 
+	}
+);	
 log("d","SERVER: URL --> "+url)
 win.clip.write(url)
 mainForm.edit.text=url
