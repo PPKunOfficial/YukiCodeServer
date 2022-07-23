@@ -1,0 +1,58 @@
+import console;
+import sqlite
+log=function(level,content){
+	if(level=="i"){
+		console.writeColorText("LOG INFO  --> "+content+'\n',console.color.gray)
+	}
+	if(level=="d"){
+		console.writeColorText("LOG DEBUG --> "+content+'\n',console.color.cyan)
+	}	
+	if(level=="w"){
+		console.writeColorText("LOG WARN  --> "+content+'\n',console.color.yellow)
+	}
+	if(level=="e"){
+		console.writeColorText("LOG ERROR --> "+content+'\n',console.color.red)
+	}
+	if(level=="f"){
+		console.writeColorText("LOG FATAL  --> "+content+'\n',console.color.white)
+	}
+}
+var db=sqlite("E:\repo\YukiCodeServer\server.db")
+
+address=request.get["adr"]
+company=request.get["com"]
+test_address=request.get["tadd"]
+sessid=request.sessionId
+
+loginSQL="SELECT * FROM USER WHERE SESSID='"+sessid+"';"
+findr=db.stepQuery(loginSQL)
+if(findr!=null){
+	stime=tostring(time.gmt(time.now()))
+	log("d","ADD CTEST NOW")
+	cre=db.prepare("INSERT INTO CTEST VALUES (@ID,@TIME,@COM,@TADD,@ILL);" )
+	cre.step(
+	ID=findr.ID,
+	TIME=stime,
+	COM=company,
+	TADD=test_address,
+	ILL="WT" // WAIT RESULT
+	)
+	log("d","ADD CTEST OK")
+	return_json={
+	"result":"OK",
+	"status":"1",
+	"req_cookie": request.sessionId
+	}
+	response.contentType = "text/json";
+	response.jsonPrettyPrint = true;
+	response.write(return_json )
+}else {
+	log("d","NO LOGIN")
+	return_json={
+	"result":"NO LOGIN",
+	"status":"0"
+	}
+	response.contentType = "text/json";
+	response.jsonPrettyPrint = true;
+	response.write(return_json )
+}

@@ -5,9 +5,9 @@ var db=sqlite("E:\repo\YukiCodePython\server\server.db")
 
 address=request.get["adr"]
 
-if(request.cookies["aardiosessid"] == request.sessionId){
-	loginSQL="SELECT * FROM USER WHERE SESSID='"+request.sessionId+"';"
-	findr=db.stepQuery(loginSQL)
+loginSQL="SELECT * FROM USER WHERE SESSID='"+request.sessionId+"';"
+findr=db.stepQuery(loginSQL)
+if(findr!=null){
 	time=tostring(time.gmt(time.now()))
 	log("d","ADD ADR NOW")
 	cre=db.prepare("INSERT INTO ADR VALUES (@ID,@ADD,@ILL,@TIME);" )

@@ -92,10 +92,13 @@ var url = wsock.tcp.simpleHttpServer.startUrl(
 		else{
 			loadcodex(`
 		<!doctype html>
-		<html><head></head><body style="white-space:pre"><?
-			response.jsonPrettyPrint = true;//输出缩进格式化的JSON
-			response.write(request); 
-		?></body>
+		<html><head></head><body>
+		<h1>雪码</h1>
+		<?
+		response.jsonPrettyPrint = true;
+		response.write(request)
+		?>
+		</body>
 		</html>`)
 			
 		} 
