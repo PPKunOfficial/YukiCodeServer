@@ -27,7 +27,7 @@ sessid=request.sessionId
 loginSQL="SELECT * FROM USER WHERE SESSID='"+sessid+"';"
 findr=db.stepQuery(loginSQL)
 if(findr!=null){
-	stime=tostring(time.gmt(time.now()))
+	stime=tostring(time.now())
 	log("d","ADD CTEST NOW")
 	cre=db.prepare("INSERT INTO CTEST VALUES (@ID,@TIME,@COM,@TADD,@ILL);" )
 	cre.step(

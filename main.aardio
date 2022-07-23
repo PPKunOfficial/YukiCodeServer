@@ -90,16 +90,7 @@ var url = wsock.tcp.simpleHttpServer.startUrl(
 			response.loadcode( request.path )
 		}
 		else{
-			loadcodex(`
-		<!doctype html>
-		<html><head></head><body>
-		<h1>雪码</h1>
-		<?
-		response.jsonPrettyPrint = true;
-		response.write(request)
-		?>
-		</body>
-		</html>`)
+			response.write()
 			
 		} 
 	}
