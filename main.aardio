@@ -1,15 +1,7 @@
-import win.ui;
 import win.clip
 import console
-/*DSG{{*/
-mainForm = win.form(text="YukiCodeServer";right=399;bottom=183;max=false;min=false)
-mainForm.add(
-button2={cls="button";text="Initialization";left=16;top=64;right=384;bottom=104;font=LOGFONT(h=-24;name='Consolas';weight=700);z=2};
-edit={cls="edit";text="Edit";left=16;top=128;right=384;bottom=160;edge=1;multiline=1;z=3};
-static2={cls="static";text="YukiCodeServer";left=0;top=16;right=400;bottom=56;align="center";center=1;font=LOGFONT(h=-35;name='Consolas';weight=700);notify=1;transparent=1;z=1}
-)
-/*}}*/
 
+console.setTitle("YukiCodeServer")
 console.log("START LOG")
 log=function(level,content){
 	if(level=="i"){
@@ -31,35 +23,6 @@ log=function(level,content){
 
 console.log("LOG CATCH START")
 log("i","SERVER: SERVER RUNNING...")
-import wsock.tcp.simpleHttpServer;
-namespace wsock.tcp.simpleHttpServer{
-	startIp = "0.0.0.0"; //不限制本机 IP
-    startPort = 80; //不指定端口时会自动分配空闲端口
-    threadGlobal = { mainForm = ..mainForm }; //指定 HTTP 服务线程的默认全局变量,注意定义线程函数的作用域同名变量不能是局部变量
-}
- 
-//io.open() //打开控制台查看线程错误信息
-var url = wsock.tcp.simpleHttpServer.startUrl( 
-	function(response,request,session){
-		if( io.exist( request.path,0) 
-			&& request.path!="/main.aardio" ){
-			response.loadcode( request.path )
-		}
-		else{
-			loadcodex(`
-		<!doctype html>
-		<html><head></head><body style="white-space:pre"><?
-			response.jsonPrettyPrint = true;//输出缩进格式化的JSON
-			response.write(request); 
-		?></body>
-		</html>`)
-			
-		} 
-	}
-);	
-log("d","SERVER: URL --> "+url)
-win.clip.write(url)
-mainForm.edit.text=url
 /*SQLCREATE{{*/
 findTable=function(db){
 	if( not db.existsTable("ADR") ) {  
@@ -103,21 +66,44 @@ findTable=function(db){
 }
 /*}}*/
 
-
-if(_ARGV.opt){
-	mainForm.edit.print(_ARGV.opt,_ARGV[#_ARGV]);
-}
-mainForm.button2.oncommand = function(id,event){
+prepareSQL=function(){
 	import sqlite
 	var db=sqlite("\server.db")
 	findTable(db)
 	db.close()
-	log("d","Initialization: CHECK OK...")
+	log("d","Initialization -> OK...")
 }
 
-mainForm.edit.oncommand = function(id,event){
-	win.clip.write(url)
+prepareSQL()
+import wsock.tcp.simpleHttpServer;
+namespace wsock.tcp.simpleHttpServer{
+	startIp = "0.0.0.0"; //不限制本机 IP
+    startPort = 80; //不指定端口时会自动分配空闲端口
+    threadGlobal = { mainForm = ..mainForm }; //指定 HTTP 服务线程的默认全局变量,注意定义线程函数的作用域同名变量不能是局部变量
 }
+ 
+//io.open() //打开控制台查看线程错误信息
+var url = wsock.tcp.simpleHttpServer.startUrl( 
+	function(response,request,session){
+		if( io.exist( request.path,0) 
+			&& request.path!="/main.aardio" ){
+			response.loadcode( request.path )
+		}
+		else{
+			loadcodex(`
+		<!doctype html>
+		<html><head></head><body style="white-space:pre"><?
+			response.jsonPrettyPrint = true;//输出缩进格式化的JSON
+			response.write(request); 
+		?></body>
+		</html>`)
+			
+		} 
+	}
+);	
+log("d","SERVER: URL --> "+url)
+win.clip.write(url)
 
-mainForm.show();
-return win.loopMessage();
+while(1){
+//wait log
+}
