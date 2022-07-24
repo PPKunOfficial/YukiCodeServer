@@ -19,14 +19,18 @@ log=function(level,content){
 }
 var db=sqlite("E:\repo\YukiCodeServer\server.db")
 
-address=request.get["adr"]
-company=request.get["com"]
-test_address=request.get["tadd"]
+address=request.post["adr"]
+company=request.post["com"]
+test_address=request.post["tadd"]
 sessid=request.sessionId
+sessck=request.cookies["sessid"]
 
 loginSQL="SELECT * FROM USER WHERE SESSID='"+sessid+"';"
 findr=db.stepQuery(loginSQL)
-if(findr!=null){
+//findr!=null
+if(sessck==session["AARDIOSESSID"]){
+	log("d","SUCCEED")
+	log("d","NO LOGIN -> SERVER: "+session["AARDIOSESSID"]+" COOKIE: "+sessck)
 	stime=tostring(time.now())
 	log("d","ADD CTEST NOW")
 	cre=db.prepare("INSERT INTO CTEST VALUES (@ID,@TIME,@COM,@TADD,@ILL);" )
@@ -41,18 +45,20 @@ if(findr!=null){
 	return_json={
 	"result":"OK",
 	"status":"1",
-	"req_cookie": request.sessionId
+	"req_cookie": sessck
 	}
 	response.contentType = "text/json";
 	response.jsonPrettyPrint = true;
 	response.write(return_json )
 }else {
-	log("d","NO LOGIN")
+	if(session["AARDIOSESSID"]!=null){
+		log("d","NO LOGIN -> SERVER: "+session["AARDIOSESSID"]+" COOKIE: "+sessck)
+	}
 	return_json={
 	"result":"NO LOGIN",
 	"status":"0"
 	}
 	response.contentType = "text/json";
 	response.jsonPrettyPrint = true;
-	response.write(return_json )
+	response.write(return_json  )
 }

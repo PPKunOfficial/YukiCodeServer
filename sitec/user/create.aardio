@@ -22,12 +22,12 @@ log=function(level,content){
 
 
 log("i","IP:"+request.remoteAddr)
-username=request.get["user"]
-password=request.get["pwd"]
-idcode=request.get["idc"]
+username=request.post["user"]
+password=request.post["pwd"]
+idcode=request.post["idc"]
 idcodeint=tonumber(idcode,,17)/10-tonumber(idcode,,18)/10
-location=request.get["loc"]
-ill=request.get["ill"]
+location=request.post["loc"]
+ill=request.post["ill"]
 id=crypt.md5(username+idcode,true,true)
 
 findUser="SELECT * FROM USER WHERE ID='"+id+"'"

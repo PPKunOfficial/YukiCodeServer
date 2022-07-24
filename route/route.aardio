@@ -22,7 +22,8 @@ log=function(level,content){
 server_path={
 	"/main.aardio":"\sitec\index.aardio",
 	"/login":"\sitec\user\login.aardio",
-	"/create":"\sitec\user\create.aardio"
+	"/create":"\sitec\user\create.aardio",
+	"/covid_check":"\sitec\illreport\covidcheck.aardio"
 }
 
 if(server_path[req_path]!=null){
@@ -30,5 +31,6 @@ if(server_path[req_path]!=null){
 	response.loadcode(server_path[req_path])
 }else {
 	log("e","404 -> "+request.path)
-	response.write(req_path)
+	response.status = "404 Not Found";
+	response.write("404 Not Found"); 
 }

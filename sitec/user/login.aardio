@@ -20,9 +20,9 @@ log=function(level,content){
 		console.writeColorText("LOG FATAL  --> "+content+'\n',console.color.white)
 	}
 }
-
-username=request.get["user"]
-password=request.get["pwd"]
+log("d",request.postData())
+username=request.post["user"]
+password=request.post["pwd"]
 
 loginSQL="SELECT * FROM USER WHERE PASSWORD='"+password+"' AND NAME='"+username+"'"
 findr=db.stepQuery(loginSQL)
@@ -38,6 +38,12 @@ if(findr==null or username=="null"){
 	response.write(return_json )
 }else {
 	request.createSessionId()
+	session["AARDIOSESSID"]=request.sessionId
+	response.cookies["sessid"] = {
+		value = request.sessionId;
+		expires = time().addday(7);
+		maxAge = 3600;
+	}
 	cre=db.prepare("UPDATE USER SET SESSID=@SESSID WHERE ID=@ID;" )
 	cre.step(
 		SESSID=request.sessionId,
