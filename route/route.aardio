@@ -1,0 +1,34 @@
+import console
+req_path=request.path
+
+log=function(level,content){
+	if(level=="i"){
+		console.writeColorText("LOG INFO  --> "+content+'\n',console.color.gray)
+	}
+	if(level=="d"){
+		console.writeColorText("LOG DEBUG --> "+content+'\n',console.color.cyan)
+	}	
+	if(level=="w"){
+		console.writeColorText("LOG WARN  --> "+content+'\n',console.color.yellow)
+	}
+	if(level=="e"){
+		console.writeColorText("LOG ERROR --> "+content+'\n',console.color.red)
+	}
+	if(level=="f"){
+		console.writeColorText("LOG FATAL  --> "+content+'\n',console.color.white)
+	}
+}
+
+server_path={
+	"/main.aardio":"\sitec\index.aardio",
+	"/login":"\sitec\user\login.aardio",
+	"/create":"\sitec\user\create.aardio"
+}
+
+if(server_path[req_path]!=null){
+	log("d",request.path)
+	response.loadcode(server_path[req_path])
+}else {
+	log("e","404 -> "+request.path)
+	response.write(req_path)
+}

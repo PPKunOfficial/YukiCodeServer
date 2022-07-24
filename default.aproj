@@ -21,4 +21,13 @@
 	<folder name="illreport" path="illreport" embed="true" comment="目录" local="false" ignored="false">
 		<file name="covidcheck.aardio" path="illreport\covidcheck.aardio" comment="illreport\covidcheck.aardio"/>
 	</folder>
+	<folder name="ocode" path="ocode" embed="true" comment="目录" local="false" ignored="false">
+		<file name="index.aardio" path="ocode\index.aardio" comment="ocode\index.aardio"/>
+	</folder>
+	<folder name="route" path="route" embed="true" comment="目录" local="false" ignored="false">
+		<file name="route.aardio" path="route\route.aardio" comment="route\route.aardio"/>
+	</folder>
+	<folder name="sitec" path="sitec" embed="true" comment="目录" local="false" ignored="false">
+		<file name="index.aardio" path="sitec\index.aardio" comment="sitec\index.aardio"/>
+	</folder>
 </project>

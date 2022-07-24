@@ -82,17 +82,11 @@ namespace wsock.tcp.simpleHttpServer{
     threadGlobal = { mainForm = ..mainForm }; //指定 HTTP 服务线程的默认全局变量,注意定义线程函数的作用域同名变量不能是局部变量
 }
  
+
 //io.open() //打开控制台查看线程错误信息
 var url = wsock.tcp.simpleHttpServer.startUrl( 
 	function(response,request,session){
-		if( io.exist( request.path,0) 
-			&& request.path!="/main.aardio" ){
-			response.loadcode( request.path )
-		}
-		else{
-			response.write()
-			
-		} 
+		response.loadcode("\route\route.aardio")
 	}
 );	
 log("d","SERVER: URL --> "+url)
